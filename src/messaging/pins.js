@@ -19,8 +19,12 @@ module.exports = function (Messaging) {
 		}
 	};
 
-	Messaging.getPinnedMessages = async (roomId, uid, start, stop) => {
-		const mids = await db.getSortedSetRevRange(`chat:room:${roomId}:mids:pinned`, start, stop);
+	Messaging.getPinnedMessages = async (roomId, options = {}) => {
+		console.log('Ashton Schutzman');
+		const { uid, start = 0, stop = 49 } = options;
+		const key = `chat:room:${roomId}:mids:pinned`;
+
+		const mids = await db.getSortedSetRevRange(key, start, stop);
 		if (!mids.length) {
 			return [];
 		}
